@@ -1,7 +1,6 @@
 package br.edu.ifpb.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -16,8 +15,7 @@ public class Temporada implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Preenchimento obrigatório")
-    @Size(min = 6, max = 16, message = "Digite um nome que tenha entre 6 ou 16 caracteres")
+    @Size(min = 6, message = "Digite um nome que contenho no mínimo 6 caracteres")
     private String nome;
 
     @ManyToOne

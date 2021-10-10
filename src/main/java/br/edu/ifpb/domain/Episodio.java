@@ -1,7 +1,6 @@
 package br.edu.ifpb.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -14,8 +13,6 @@ public class Episodio implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Preenchimento obrigatório")
-    @Size(min = 1, message = "Digite um número para o episódio")
     private Integer numero;
 
     @ManyToOne

@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -18,16 +16,12 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Preenchimento obrigatório")
-    @Size(min = 6, max = 16, message = "Digite um nome que tenha entre 6 ou 16 caracteres")
+    @Size(min = 6, message = "Digite um nome que contenho no mínimo 6 caracteres")
     private String nome;
 
-    @NotBlank(message = "Preenchimento obrigatório")
-    @Email(message = "Digite um email válido")
     private String email;
 
-    @NotBlank(message = "Preenchimento obrigatório")
-    @Size(min = 6, max = 16, message = "Digite uma senha que tenha entre 6 ou 16 caracteres")
+    @Size(min = 6, message = "Digite uma senha que contenho no mínimo 6 caracteres")
     private String senha;
 
     public Usuario() {

@@ -12,4 +12,14 @@ public class OperacoesResource {
     public String signup(Usuario usuario) {
         return "usuario/new";
     }
+
+    @RequestMapping(value = "/loginform", method = RequestMethod.GET)
+    public String loginForm(Usuario usuario) {
+        return "usuario/form";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Usuario usuario) {
+        return "";
+    }
 }

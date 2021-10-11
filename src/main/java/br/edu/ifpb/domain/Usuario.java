@@ -16,12 +16,10 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(min = 6, message = "Digite um nome que contenho no mínimo 6 caracteres")
     private String nome;
 
     private String email;
 
-    @Size(min = 6, message = "Digite uma senha que contenho no mínimo 6 caracteres")
     private String senha;
 
     public Usuario() {

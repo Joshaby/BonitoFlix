@@ -24,14 +24,14 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-at icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="email" class="form-control" id="email" required placeholder="E-mail"/>
+                            <input type="email" th:field="*{nome}" class="form-control" id="email" required placeholder="E-mail"/>
                             <label for="email">E-mail</label>
                         </div>
                     </div>
                     <div class="input-group mb-4">
                         <span class="input-group-text"><i class="fas fa-key icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="password" class="form-control" id="senha" required placeholder="Senha"/>
+                            <input type="password" th:field="*{senha}" class="form-control" id="senha" required placeholder="Senha"/>
                             <label for="senha">Senha</label>
                         </div>
                     </div>

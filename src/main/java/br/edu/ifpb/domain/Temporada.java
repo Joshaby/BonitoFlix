@@ -15,7 +15,6 @@ public class Temporada implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(min = 6, message = "Digite um nome que contenho no mínimo 6 caracteres")
     private String nome;
 
     @ManyToOne

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <title th:remove="all">Novo usuário</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.1/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/main.css}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.15.4/css/all.css} "/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/main.css"/>
+</head>
+<body>
+<main class="container1">
+    <div class="child">
+        <form action="#"
+              th:action="@{/usuario/add}"
+              th:object="${usuario}"
+              method="post">
+
+            <div class="card p-3">
+                <div class="card-header background-white mb-3">
+                    <p class="text-center title">Cadastro de usuário</p>
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-user icon"></i></span>
+                        <div class="form-floating flex-grow-1">
+                            <input type="text" class="form-control" id="nome" placeholder="Nome"/>
+                            <label for="nome">Nome</label>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-at icon"></i></span>
+                        <div class="form-floating flex-grow-1">
+                            <input type="email" class="form-control" id="email" placeholder="E-mail"/>
+                            <label for="email">E-mail</label>
+                        </div>
+                    </div>
+                    <div class="input-group mb-4">
+                        <span class="input-group-text"><i class="fas fa-key icon"></i></span>
+                        <div class="form-floating flex-grow-1">
+                            <input type="password" class="form-control" id="senha" placeholder="Senha"/>
+                            <label for="senha">Senha</label>
+                        </div>
+                    </div>
+                    <p class="mb-3"><a href="">Esqueceu sua senha?</a></p>
+                    <div class="form-check mb-4">
+                        <input type="checkbox" class="form-check-input" id="senha-check-box"/>
+                        <label class="form-check-label" for="senha-check-box">Mostrar senha</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </div>
+            <p class="form-text text-center m-3">Aplicação feita por José Henrique, Ítalo Neves e Érica Clementino</p>
+            <p class="form-text text-center m-3">© 2018-2021</p>
+        </form>
+    </div>
+</main>
+
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.1.1/js/bootstrap.min.js}"></script>
+<script src="../../assets/js/main.js"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+</html>

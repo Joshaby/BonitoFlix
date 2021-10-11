@@ -10,6 +10,6 @@ public class OperacoesResource {
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(Usuario usuario) {
-        return "usuario/form";
+        return "usuario/new";
     }
 }

@@ -12,11 +12,18 @@ a, a:visited {
     align-items: center;
 }
 
+.container-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .child {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 40% !important;
+    width: 425px !important;
     transform: translate(-50%, -50%);
 }
 

@@ -1,0 +1,39 @@
+:root {
+    --white: #FFF;
+}
+
+a, a:visited {
+    text-decoration: none;
+}
+
+.container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40% !important;
+    transform: translate(-50%, -50%);
+}
+
+.title {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.subtitle {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.background-white {
+    background-color: var(--white);
+}
+
+.icon {
+    width: 20px;
+}

@@ -21,6 +21,9 @@ public class UsuarioResource {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUsuario(@Valid Usuario usuario, BindingResult result, Model model) {
 
+        if (result.hasErrors()) {
+            return "form";
+        }
         repository.save(usuario);
         return "redirect:/";
     }

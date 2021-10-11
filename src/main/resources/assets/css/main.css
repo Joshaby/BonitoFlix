@@ -44,3 +44,7 @@ a, a:visited {
 .icon {
     width: 20px;
 }
+
+.nav-title {
+    font-size: 27px;
+}

@@ -24,7 +24,7 @@ public class UsuarioResource {
 
         Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
         if (usuarioFromBD.isPresent()) {
-            model.addAttribute("usuarioAlreadyExists", true);
+            model.addAttribute("error", "usuarioAlreadyExists");
             return "usuario/new";
         }
 

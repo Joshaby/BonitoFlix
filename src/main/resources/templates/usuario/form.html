@@ -13,7 +13,7 @@
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}"/>
 </head>
-<body class="bg-light">
+<body class="bg-light" onload="showModalOnLoad('#modal')">
 <main class="container1">
     <div class="child">
         <form action="#"
@@ -30,7 +30,7 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-at icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="email" th:field="*{nome}" class="form-control" id="email" required
+                            <input type="email" th:field="*{email}" class="form-control" id="email" required
                                    placeholder="E-mail"/>
                             <label for="email">E-mail</label>
                         </div>
@@ -63,7 +63,47 @@
         </form>
     </div>
 </main>
-
+<div th:switch="${error}">
+    <div th:case="'invalidEmail'">
+        <div id="modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span>O usuário não existe no sistema. Se cadastre primeiro</span>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/signup"><button type="button" class="btn btn-primary">Cadastrar</button></a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:case="'invalidPassword'">
+        <div id="modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span>Senha inválida</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script th:src="@{/assets/js/main.js}"></script>
 
 </body>

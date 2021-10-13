@@ -71,8 +71,8 @@
         </form>
     </div>
 </main>
-<div th:switch="${usuarioAlreadyExists}">
-    <div th:case="true">
+<div th:switch="${error}">
+    <div th:case="'usuarioAlreadyExists'">
         <div id="modal" class="modal fade" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -84,7 +84,7 @@
                     <div class="modal-body">
                         <span>Usuário com o email</span>
                         <span th:utext="${usuario.email}"></span>
-                        <span> já existe.</span>
+                        <span> já existe</span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

@@ -7,6 +7,12 @@ function changeVisibility() {
     }
 }
 
+function showModalOnLoad() {
+    $(document).ready(function () {
+        $("#myModal").modal('show');
+    });
+}
+
 function voltar() {
     window.history.back();
 }

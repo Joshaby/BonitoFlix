@@ -7,9 +7,9 @@ function changeVisibility() {
     }
 }
 
-function showModalOnLoad() {
+function showModalOnLoad(id) {
     $(document).ready(function () {
-        $("#myModal").modal('show');
+        $(id).modal('show');
     });
 }
 

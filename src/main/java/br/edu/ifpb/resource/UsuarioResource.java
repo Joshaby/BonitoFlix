@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/usuario")
@@ -20,6 +21,12 @@ public class UsuarioResource {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUsuario(@Valid Usuario usuario, BindingResult result, Model model) {
+
+        Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
+        if (usuarioFromBD.isPresent()) {
+            model.addAttribute("usuarioAlreadyExists", true);
+            return "usuario/new";
+        }
 
         repository.save(usuario);
         return "redirect:/";

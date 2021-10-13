@@ -13,7 +13,7 @@
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}"/>
 </head>
-<body class="bg-light">
+<body class="bg-light" onload="showModalOnLoad('#modal')">
 <main class="container1">
     <div class="child">
         <form action="#"
@@ -71,6 +71,29 @@
         </form>
     </div>
 </main>
+<div th:switch="${usuarioAlreadyExists}">
+    <div th:case="true">
+        <div id="modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span>Usuário com o email</span>
+                        <span th:utext="${usuario.email}"></span>
+                        <span> já existe.</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script th:src="@{/assets/js/main.js}"></script>
 <script th:src="@{/assets/js/validation.js}"></script>

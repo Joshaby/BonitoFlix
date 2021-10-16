@@ -5,7 +5,6 @@ import br.edu.ifpb.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,16 +15,6 @@ public class OperacoesResource {
 
     @Autowired
     private UsuarioRepository repository;
-
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signup() {
-        return "usuario/new";
-    }
-
-    @RequestMapping(value = "/loginform", method = RequestMethod.GET)
-    public String loginForm() {
-        return "usuario/form";
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(Usuario usuario, Model model) {

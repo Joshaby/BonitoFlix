@@ -19,6 +19,8 @@ public class Episodio implements Serializable {
     @JoinColumn(name = "TEMPORADA_ID")
     private Temporada temporada;
 
+    private Boolean assistidoCheck;
+
     public Episodio() {
 
     }

@@ -16,9 +16,7 @@
 <body class="bg-light" onload="showModalOnLoad('#modal')">
 <main class="container1">
     <div class="child">
-        <form action="#"
-              th:action="@{/login}"
-              th:object="${usuario}"
+        <form action="/login"
               method="post">
 
             <div class="card shadow-sm">
@@ -30,7 +28,7 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-at icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="email" th:field="*{email}" class="form-control" id="email" required
+                            <input type="email" name="email" class="form-control" id="email" required
                                    placeholder="E-mail"/>
                             <label for="email">E-mail</label>
                         </div>
@@ -38,7 +36,7 @@
                     <div class="input-group mb-4">
                         <span class="input-group-text"><i class="fas fa-key icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="password" th:field="*{senha}" class="form-control" id="senha" required
+                            <input type="password" name="senha" class="form-control" id="senha" required
                                    placeholder="Senha"/>
                             <label for="senha">Senha</label>
                         </div>

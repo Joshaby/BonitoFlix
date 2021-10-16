@@ -20,7 +20,7 @@ public class UsuarioResource {
     private UsuarioRepository repository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addUsuario(@Valid Usuario usuario, BindingResult result, Model model) {
+    public String addUsuario(Usuario usuario, Model model) {
 
         Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
         if (usuarioFromBD.isPresent()) {

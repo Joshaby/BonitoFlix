@@ -24,14 +24,14 @@ public class SerieResource {
     //CadastrarSerie
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String cadastrarSerie(@Valid Serie serie, Model model){
-        Optional<Serie> serieR =  serieRepository.findByNome(serie.getNome());
-        if(serieR.isPresent()){
+        Optional<Serie> retornoSerie =  serieRepository.findByNome(serie.getNome());
+        if(retornoSerie.isPresent()){
             model.addAttribute("error", "serieAlreadyExists");
-            return "redirect:/";
+            return "page";
         }
         model.addAttribute("serieAdicionada", serie);
         serieRepository.save(serie);
-        return "redirect:/";
+        return "page";
     }
 
     //ListarSerie
@@ -40,7 +40,25 @@ public class SerieResource {
         List<Serie> listaSeries =  serieRepository.findAll();
         ModelAndView modelAndView = new ModelAndView("serie/page");
         modelAndView.addObject("listaSerie", listaSeries);
+
         return modelAndView;
     }
+
+
+    //DeletarSerie
+    @RequestMapping(value = "/deletar", method = RequestMethod.DELETE)
+    public String deletarSerie(Integer id, Model model){
+
+         Optional<Serie> serie = serieRepository.findById(id);
+
+         if(!serie.isPresent()){
+            model.addAttribute("error", "serieNoExists");
+            return  "redirect:deletar";
+         }
+         serieRepository.delete( serie.get());
+         model.addAttribute("sucesso", "deletadoComSucesso");
+         return "page";
+    }
+
 
 }

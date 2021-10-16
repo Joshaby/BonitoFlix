@@ -14,7 +14,6 @@ public class Serie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String nome;
 
     @OneToMany(mappedBy = "serie")

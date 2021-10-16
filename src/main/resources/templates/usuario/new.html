@@ -16,9 +16,7 @@
 <body class="bg-light" onload="showModalOnLoad('#modal')">
 <main class="container1">
     <div class="child">
-        <form action="#"
-              th:action="@{/usuario/add}"
-              th:object="${usuario}"
+        <form action="/usuario/add"
               onsubmit="return validateValuesBeforeSend();"
               method="post">
 
@@ -31,7 +29,7 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-user icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="text" th:field="*{nome}" onblur="validateUsername()"
+                            <input type="text" name="nome" onblur="validateUsername()"
                                    oninput="validateUsername()" class="form-control" id="nome" required
                                    placeholder="Nome"/>
                             <label for="nome" id="nome-label">Nome</label>
@@ -40,7 +38,7 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-at icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="email" th:field="*{email}" class="form-control" id="email" required
+                            <input type="email" name="email" class="form-control" id="email" required
                                    placeholder="E-mail"/>
                             <label for="email">E-mail</label>
                         </div>
@@ -48,7 +46,7 @@
                     <div class="input-group mb-4">
                         <span class="input-group-text"><i class="fas fa-key icon"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="password" th:field="*{senha}" onblur="validatePassword()"
+                            <input type="password" name="senha" onblur="validatePassword()"
                                    oninput="validatePassword()" class="form-control" id="senha" required
                                    placeholder="Senha"/>
                             <label for="senha" id="senha-label">Senha</label>

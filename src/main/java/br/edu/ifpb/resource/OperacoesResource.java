@@ -18,17 +18,17 @@ public class OperacoesResource {
     private UsuarioRepository repository;
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signup(Usuario usuario) {
+    public String signup() {
         return "usuario/new";
     }
 
     @RequestMapping(value = "/loginform", method = RequestMethod.GET)
-    public String loginForm(Usuario usuario) {
+    public String loginForm() {
         return "usuario/form";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(Usuario usuario, BindingResult result, Model model) {
+    public String login(Usuario usuario, Model model) {
 
         Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
         if (usuarioFromBD.isEmpty()) {

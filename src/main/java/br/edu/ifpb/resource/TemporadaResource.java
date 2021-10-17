@@ -1,10 +1,12 @@
 package br.edu.ifpb.resource;
 
 import br.edu.ifpb.domain.Temporada;
+import br.edu.ifpb.domain.Usuario;
 import br.edu.ifpb.repository.TemporadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,21 +25,29 @@ public class TemporadaResource {
 
     //CadastrarTemporada
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String cadastrarTemporada(Temporada temporada, Model model){
+    public ModelAndView cadastrarTemporada(Temporada temporada){
 
-        model.addAttribute("temporadaAdicionada", temporada);
+        ModelAndView modelAndView = new ModelAndView("redirect:/temporada/page");
+        //pegar sessão para colocar usuários no objeto.
         temporadaRepository.save(temporada);
-        return "temporada/page"; //verificar questão do modal com zé
+        return modelAndView;
     }
 
     //ListarTemporada
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ModelAndView listarTemporada(){
+    public ModelAndView listarTemporada(@ModelAttribute("usuario") Usuario usuario){
 
         ModelAndView modelAndView = new ModelAndView("temporada/page");
         List<Temporada> listaTemporadas =  temporadaRepository.findAll();
         modelAndView.addObject("listaTemporada", listaTemporadas);
-
+        modelAndView.addObject("usuario", usuario);
+        System.out.println("\n\n\n entrou aqui" +
+                "" +
+                "" +
+                "" +
+                "" +
+                "" +
+                "entrou");
         return modelAndView;
     }
 

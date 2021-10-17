@@ -25,7 +25,7 @@
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item d-flex">
                     <span class="navbar-text">Usuário:&nbsp;</span>
-                    <span class="navbar-text me-2" th:utext="${usuarioNome}"></span>
+                    <span class="navbar-text me-2" th:utext="${session.usuario['nome']}"></span>
                     <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt mx-1"></i>Sair</a>
                 </li>
             </ul>
@@ -33,6 +33,22 @@
     </nav>
 </header>
 <main class="container">
+    <div th:switch="${alert}">
+        <div th:case="'del'">
+            <div class="alert alert-success mt-5" role="alert">
+                <span>A série</span>
+                <span th:utext="${serieNome}"></span>
+                <span>foi removida com sucesso!</span>
+            </div>
+        </div>
+        <div th:case="'add'">
+            <div class="alert alert-success mt-5" role="alert">
+                <span>A série</span>
+                <span th:utext="${serieNome}"></span>
+                <span>foi adicionada com sucesso!</span>
+            </div>
+        </div>
+    </div>
     <div class="card my-5 shadow-sm">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">

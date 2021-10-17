@@ -6,11 +6,12 @@ import br.edu.ifpb.repository.SerieRepository;
 import br.edu.ifpb.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -28,7 +29,7 @@ public class SerieResource {
 
     //CadastrarSerie
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView cadastrarSerie(Serie serie, HttpSession session){
+    public ModelAndView cadastrarSerie(Serie serie, HttpSession session, RedirectAttributes redirectAttributes) {
 
         ModelAndView modelSeriePage = new ModelAndView("redirect:/serie/page");
 
@@ -42,13 +43,19 @@ public class SerieResource {
 //            return "page";
 //        }
 //        model.addAttribute("serieAdicionada", serie);
+
+        redirectAttributes.addFlashAttribute("alert", "add");
+        redirectAttributes.addFlashAttribute("serieNome", serie.getNome());
+
         serieRepository.save(serie);
         return modelSeriePage;
     }
 
     //ListarSerie
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ModelAndView listaSerie(HttpSession session) {
+    public ModelAndView listaSerie(
+            @ModelAttribute("alert") String alert, @ModelAttribute("serieNome") String serieNome, HttpSession session) {
+
         Usuario usuarioFromSession = (Usuario) session.getAttribute("usuario");
         Usuario usuarioFromBD = usuarioRepository.findByEmail(usuarioFromSession.getEmail()).get();
 
@@ -57,26 +64,26 @@ public class SerieResource {
         ModelAndView modelAndView = new ModelAndView("serie/page");
 
         modelAndView.addObject("listaSerie", listaSeries);
-        modelAndView.addObject("usuarioNome", usuarioFromBD.getNome());
+        modelAndView.addObject("alert", alert);
+        modelAndView.addObject("serieNome", serieNome);
 
         return modelAndView;
     }
 
-
     //DeletarSerie
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public String deletarSerie(@PathVariable Integer id, Model model){
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public ModelAndView deletarSerie(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
 
-         Optional<Serie> serie = serieRepository.findById(id);
+        ModelAndView modelSeriePage = new ModelAndView("redirect:/serie/page");
 
-         if(!serie.isPresent()){
-            model.addAttribute("error", "serieNoExists");
-            return  "redirect:deletar";
-         }
-         serieRepository.delete( serie.get());
-         model.addAttribute("sucesso", "deletadoComSucesso");
-         return "page";
+        Optional<Serie> serie = serieRepository.findById(id);
+
+        serieRepository.delete(serie.get());
+
+        redirectAttributes.addFlashAttribute("alert", "del");
+        redirectAttributes.addFlashAttribute("serieNome", serie.get().getNome());
+
+        return modelSeriePage;
     }
-
 
 }

@@ -1,7 +1,6 @@
 package br.edu.ifpb.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +13,12 @@ public class Serie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "USUARIO_ID")
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "serie")
     private Set<Temporada> temporadas = new HashSet<>();
@@ -23,11 +27,25 @@ public class Serie implements Serializable {
 
     }
 
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Set<Temporada> getTemporadas() {

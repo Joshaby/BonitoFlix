@@ -13,7 +13,7 @@
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}"/>
 </head>
-<body class="bg-light" onload="showModalOnLoad('#myModal')">
+<body class="bg-light">
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -25,7 +25,7 @@
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item d-flex">
                     <span class="navbar-text">Usuário:&nbsp;</span>
-                    <span class="navbar-text me-1" th:utext="${usuario.nome}"></span>
+                    <span class="navbar-text me-2" th:utext="${usuario.nome}"></span>
                     <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt mx-1"></i>Sair</a>
                 </li>
             </ul>
@@ -33,66 +33,66 @@
     </nav>
 </header>
 <main class="container">
-    <div class="card my-5">
+    <div class="card my-5 shadow-sm">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex justify-content-start align-items-center">
-                    <span><i class="fas fa-film fa-2x icon me-4"></i></span>
-                    <h2 class="mt-1">Séries</h2>
-                </div>
-                <a href="/serie/page">  <button class="btn btn-primary"><i class="fas fa-plus-circle"></i>
-
-                </button></a>
-            </div>
-        </div>
-        <div class="card-body shadow-sm">
-            <div class="d-flex justify-content-between align-items-center">
-                <span>1 - Breaking Bad</span>
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button>
-                    <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                </div>
-            </div>
-            <hr/>
-            <div class="d-flex justify-content-between align-items-center">
-                <span>2 - Doctor Who</span>
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button>
-                    <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                </div>
-            </div>
-            <hr/>
-            <div class="d-flex justify-content-between align-items-center">
-                <span>3 - Supernatural</span>
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button>
-                    <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal3"><i
-                            class="fas fa-trash-alt"></i></button>
-                    <div id="modal3" class="modal fade" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confimação</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Tem certeza que deseja remover a série?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                                    <button type="button" class="btn btn-primary">Sim</button>
-                                </div>
+                <h2>Séries</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newSerie"><i
+                        class="fas fa-plus-circle"></i></button>
+                <div id="newSerie" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Adicionar série</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/serie/add" method="post">
+                                    <div class="form-floating flex-grow-1">
+                                        <input type="text" id="nome" name="nome" class="form-control mb-3" required
+                                               placeholder="Nome"/>
+                                        <label for="nome">Nome</label>
+                                        <input type="text" name="usuario.id" th:value="${usuario.id}" hidden/>
+                                        <input type="text" name="usuario.nome" th:value="${usuario.nome}" hidden/>
+                                        <input type="text" name="usuario.email" th:value="${usuario.email}" hidden/>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <button type="button" class="btn btn-secondary me-1" data-bs-dismiss="modal">
+                                            Fechar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr/>
-            <p class="text-end">Quantidade: 3</p>
+        </div>
+        <div th:switch="${listaSerie.size()}">
+            <div th:case="0">
+                <p class="text-center my-3">Você não possui séries. Adicione uma!</p>
+            </div>
+            <div th:case="*">
+                <div class="card-body">
+                    <div th:each="serie : ${listaSerie}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p th:text="${serie.nome}"></p>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button>
+                            <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="text-end">
+                        <span>Quantidade:&nbsp;</span>
+                        <span th:utext="${listaSerie.size()}"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
@@ -101,24 +101,6 @@
         <p class="text-muted text-center">© 2018-2021 - BonitoFlix</p>
     </div>
 </footer>
-<!--<div id="myModal" class="modal fade" tabindex="-1">-->
-<!--    <div class="modal-dialog modal-dialog-centered">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title">Teste</h5>-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal"-->
-<!--                        aria-label="Close"></button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <p>Teste</p>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>-->
-<!--                <button type="button" class="btn btn-primary">Salvar</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <script th:src="@{/assets/js/main.js}"></script>
 

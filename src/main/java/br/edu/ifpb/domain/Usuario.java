@@ -1,10 +1,10 @@
 package br.edu.ifpb.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "USUARIO")
 public class Usuario implements Serializable {
@@ -21,8 +21,18 @@ public class Usuario implements Serializable {
 
     private String senha;
 
+    @OneToMany(mappedBy = "usuario")
+    private Set<Serie> series = new HashSet<>();
+
     public Usuario() {
 
+    }
+
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -44,5 +54,18 @@ public class Usuario implements Serializable {
     }
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario)) return false;
+        Usuario usuario = (Usuario) o;
+        return getNome().equals(usuario.getNome()) && getEmail().equals(usuario.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNome(), getEmail());
     }
 }

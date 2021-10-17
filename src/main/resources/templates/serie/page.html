@@ -78,12 +78,35 @@
                 <div class="card-body">
                     <div th:each="serie : ${listaSerie}">
                         <div class="d-flex justify-content-between align-items-center">
-                            <p th:text="${serie.nome}"></p>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button>
-                            <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <span th:utext="${serie.nome}"></span>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button>
+                                <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#modalDelete'+${serie.id}"
+                                        data-bs-target="#modalDelete"><i
+                                        class="fas fa-trash-alt"></i></button>
+                                <div th:id="'modalDelete'+${serie.id}" class="modal fade" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmação</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span>Tem certeza que deseja remover a série</span>
+                                                <span th:utext="${serie.nome}"></span>
+                                                <span>?</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Não
+                                                </button>
+                                                <button type="button" class="btn btn-primary">Sim</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <hr/>
                     </div>

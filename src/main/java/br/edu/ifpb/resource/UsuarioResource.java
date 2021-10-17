@@ -54,4 +54,28 @@ public class UsuarioResource {
         model.addAttribute("error", error);
         return "usuario/new";
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ModelAndView login(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes) {
+
+        ModelAndView modelError = new ModelAndView("redirect:/usuario/form");
+        ModelAndView modelTemporada = new ModelAndView("redirect:/serie/page");
+
+        Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
+
+        if (usuarioFromBD.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "invalidEmail");
+            return modelError;
+        }
+        else {
+            if (!usuarioFromBD.get().getSenha().equals(usuario.getSenha())) {
+                redirectAttributes.addFlashAttribute("error", "invalidPassword");
+                return modelError;
+            }
+        }
+
+        redirectAttributes.addFlashAttribute("usuario", usuarioFromBD);
+
+        return modelTemporada;
+    }
 }

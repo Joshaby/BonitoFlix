@@ -24,6 +24,9 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario")
     private Set<Serie> series = new HashSet<>();
 
+    @OneToMany(mappedBy = "usuario")
+    private Set<Serie> temporada = new HashSet<>();
+
     public Usuario() {
 
     }

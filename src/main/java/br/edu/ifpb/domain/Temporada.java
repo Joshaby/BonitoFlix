@@ -18,6 +18,10 @@ public class Temporada implements Serializable {
     private String nome;
 
     @ManyToOne
+    @JoinColumn(name = "USUARIO_ID")
+    private Usuario usuario;
+
+    @ManyToOne
     @JoinColumn(name = "SERIE_ID")
     private Serie serie;
 

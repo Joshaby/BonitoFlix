@@ -25,7 +25,7 @@
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item d-flex">
                     <span class="navbar-text">Usuário:&nbsp;</span>
-                    <span class="navbar-text me-2" th:utext="${usuario.nome}"></span>
+                    <span class="navbar-text me-2" th:utext="${session.usuario['nome']}"></span>
                     <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt mx-1"></i>Sair</a>
                 </li>
             </ul>
@@ -33,6 +33,22 @@
     </nav>
 </header>
 <main class="container">
+    <div th:switch="${alert}">
+        <div th:case="'del'">
+            <div class="alert alert-success mt-5" role="alert">
+                <span>A série</span>
+                <span th:utext="${serieNome}"></span>
+                <span>foi removida com sucesso!</span>
+            </div>
+        </div>
+        <div th:case="'add'">
+            <div class="alert alert-success mt-5" role="alert">
+                <span>A série</span>
+                <span th:utext="${serieNome}"></span>
+                <span>foi adicionada com sucesso!</span>
+            </div>
+        </div>
+    </div>
     <div class="card my-5 shadow-sm">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
@@ -53,9 +69,6 @@
                                         <input type="text" id="nome" name="nome" class="form-control mb-3" required
                                                placeholder="Nome"/>
                                         <label for="nome">Nome</label>
-                                        <input type="text" name="usuario.id" th:value="${usuario.id}" hidden/>
-                                        <input type="text" name="usuario.nome" th:value="${usuario.nome}" hidden/>
-                                        <input type="text" name="usuario.email" th:value="${usuario.email}" hidden/>
                                     </div>
                                     <div class="d-flex justify-content-end align-items-center">
                                         <button type="button" class="btn btn-secondary me-1" data-bs-dismiss="modal">
@@ -79,12 +92,39 @@
                     <div th:each="serie : ${listaSerie}">
                         <div class="d-flex justify-content-between align-items-center">
                             <p th:text="${serie.nome}"></p>
+                            <div class="d-flex justify-content-end">
+                                <a href="/temporada/page"><button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button></a>
+                                <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#modalDelete'+${serie.id}"
+                                        data-bs-target="#modalDelete"><i
+                                        class="fas fa-trash-alt"></i></button>
+                                <div th:id="'modalDelete'+${serie.id}" class="modal fade" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmação</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span>Tem certeza que deseja remover a série</span>
+                                                <span th:utext="${serie.nome}"></span>
+                                                <span>?</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Não
+                                                </button>
+                                                <a th:href="@{/serie/delete/{id}(id = ${serie.id})}">
+                                                    <button type="button" class="btn btn-primary">Sim</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <a href="/temporada/page"><button class="btn btn-success me-1"><i class="fas fa-external-link-alt"></i></button></a>
-                            <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                        </div>
+
+
                         <hr/>
                     </div>
                     <div class="text-end">

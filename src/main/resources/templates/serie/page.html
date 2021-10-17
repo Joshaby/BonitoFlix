@@ -25,7 +25,7 @@
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item d-flex">
                     <span class="navbar-text">Usuário:&nbsp;</span>
-                    <span class="navbar-text me-2" th:utext="${usuario.nome}"></span>
+                    <span class="navbar-text me-2" th:utext="${usuarioNome}"></span>
                     <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt mx-1"></i>Sair</a>
                 </li>
             </ul>
@@ -53,9 +53,6 @@
                                         <input type="text" id="nome" name="nome" class="form-control mb-3" required
                                                placeholder="Nome"/>
                                         <label for="nome">Nome</label>
-                                        <input type="text" name="usuario.id" th:value="${usuario.id}" hidden/>
-                                        <input type="text" name="usuario.nome" th:value="${usuario.nome}" hidden/>
-                                        <input type="text" name="usuario.email" th:value="${usuario.email}" hidden/>
                                     </div>
                                     <div class="d-flex justify-content-end align-items-center">
                                         <button type="button" class="btn btn-secondary me-1" data-bs-dismiss="modal">
@@ -101,7 +98,9 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                     Não
                                                 </button>
-                                                <button type="button" class="btn btn-primary">Sim</button>
+                                                <a th:href="@{/serie/delete/{id}(id = ${serie.id})}">
+                                                    <button type="button" class="btn btn-primary">Sim</button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

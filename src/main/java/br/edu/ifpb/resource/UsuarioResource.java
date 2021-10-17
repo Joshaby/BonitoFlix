@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -21,12 +22,11 @@ public class UsuarioResource {
     private UsuarioRepository repository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addUsuario(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes) {
+    public ModelAndView addUsuario(
+            @ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
 
         ModelAndView modelError = new ModelAndView("redirect:/usuario/new");
-        ModelAndView modelTemporada = new ModelAndView("redirect:/serie/page");
-
-        redirectAttributes.addFlashAttribute("usuario", usuario);
+        ModelAndView modelSerie = new ModelAndView("redirect:/serie/page");
 
         Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
 
@@ -35,8 +35,10 @@ public class UsuarioResource {
             return modelError;
         }
 
+        session.setAttribute("usuario", usuario);
+
         repository.save(usuario);
-        return modelTemporada;
+        return modelSerie;
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
@@ -56,7 +58,7 @@ public class UsuarioResource {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes) {
+    public ModelAndView login(Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
 
         ModelAndView modelError = new ModelAndView("redirect:/usuario/form");
         ModelAndView modelTemporada = new ModelAndView("redirect:/serie/page");
@@ -74,7 +76,7 @@ public class UsuarioResource {
             }
         }
 
-        redirectAttributes.addFlashAttribute("usuario", usuarioFromBD);
+        session.setAttribute("usuario", usuario);
 
         return modelTemporada;
     }

@@ -76,7 +76,7 @@ public class UsuarioResource {
             }
         }
 
-        session.setAttribute("usuario", usuario);
+        session.setAttribute("usuario", usuarioFromBD.get());
 
         return modelTemporada;
     }

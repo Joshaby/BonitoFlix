@@ -3,6 +3,7 @@ package br.edu.ifpb.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "SERIE")
@@ -53,5 +54,18 @@ public class Serie implements Serializable {
     }
     public void setTemporadas(Set<Temporada> temporadas) {
         this.temporadas = temporadas;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Serie)) return false;
+        Serie serie = (Serie) o;
+        return getId().equals(serie.getId()) && getNome().equals(serie.getNome()) && getUsuario().equals(serie.getUsuario());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getNome(), getUsuario());
     }
 }

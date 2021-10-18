@@ -1,9 +1,9 @@
 package br.edu.ifpb.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "TEMPORADA")
@@ -54,5 +54,18 @@ public class Temporada implements Serializable {
     }
     public void setEpisodios(Set<Episodio> episodios) {
         this.episodios = episodios;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Temporada)) return false;
+        Temporada temporada = (Temporada) o;
+        return getId().equals(temporada.getId()) && getNome().equals(temporada.getNome()) && getSerie().equals(temporada.getSerie());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getNome(), getSerie());
     }
 }

@@ -37,15 +37,16 @@ public class SerieResource {
         Usuario usuarioFromBD = usuarioRepository.findByEmail(usuarioFromSession.getEmail()).get();
 
         serie.setUsuario(usuarioFromBD);
-//        Optional<Serie> retornoSerie =  serieRepository.findByNomeAndUsuario(serie.getNome(), serie.getUsuario());
-//        if(retornoSerie.isPresent()){
-//            model.addAttribute("error", "serieAlreadyExists");
-//            return "page";
-//        }
-//        model.addAttribute("serieAdicionada", serie);
+
+        redirectAttributes.addFlashAttribute("serieNome", serie.getNome());
+
+        Optional<Serie> retornoSerie =  serieRepository.findByNomeAndUsuario(serie.getNome(), usuarioFromBD);
+        if(retornoSerie.isPresent()){
+            redirectAttributes.addFlashAttribute("alert", "add-error");
+            return modelSeriePage;
+        }
 
         redirectAttributes.addFlashAttribute("alert", "add");
-        redirectAttributes.addFlashAttribute("serieNome", serie.getNome());
 
         serieRepository.save(serie);
         return modelSeriePage;
@@ -84,6 +85,18 @@ public class SerieResource {
         redirectAttributes.addFlashAttribute("serieNome", serie.get().getNome());
 
         return modelSeriePage;
+    }
+
+    @RequestMapping(value = "/{id}/temporada", method = RequestMethod.GET)
+    public ModelAndView temporadas(@PathVariable Integer id, HttpSession session) {
+
+        ModelAndView modelTemporadas = new ModelAndView("redirect:/temporada/page");
+
+        Optional<Serie> serieFromBD = serieRepository.findById(id);
+
+        session.setAttribute("serie", serieFromBD.get());
+
+        return modelTemporadas;
     }
 
 }

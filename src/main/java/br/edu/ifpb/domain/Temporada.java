@@ -18,10 +18,6 @@ public class Temporada implements Serializable {
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "USUARIO_ID")
-    private Usuario usuario;
-
-    @ManyToOne
     @JoinColumn(name = "SERIE_ID")
     private Serie serie;
 
@@ -30,6 +26,13 @@ public class Temporada implements Serializable {
 
     public Temporada() {
 
+    }
+
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {

@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface SerieRepository extends CrudRepository<Serie, Integer> {
 
     List<Serie> findAllByUsuario(Usuario usuario);
+
+    Optional<Serie> findByNomeAndUsuario(String nome, Usuario usuario);
 }

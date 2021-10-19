@@ -80,4 +80,13 @@ public class UsuarioResource {
 
         return modelTemporada;
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView logout(HttpSession session) {
+        session.invalidate();
+
+        ModelAndView modelIndex = new ModelAndView("redirect:/");
+
+        return modelIndex;
+    }
 }

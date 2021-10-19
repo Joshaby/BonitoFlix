@@ -45,6 +45,14 @@ a, a:visited {
     width: 20px;
 }
 
+.icon1 {
+    width: 18px;
+}
+
 .nav-title {
     font-size: 27px;
+}
+
+.checkbox {
+    padding: 50px !important;
 }

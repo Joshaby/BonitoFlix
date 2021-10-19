@@ -1,10 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:remove="all">Episódios</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}"/>
 </head>
-<body>
+<body class="bg-light">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <div class="navbar-brand d-flex justify-content-between align-content-center">
+                <a href="#"><img th:src="@{/assets/image/logo.svg}"
+                                 class="d-inline-block align-text-top me-2" alt="" th:width="50" th:height="38"></a>
+                <h1 class="nav-title my-1 mx-2">BonitoFlix</h1>
+            </div>
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item d-flex">
+                    <span class="navbar-text">Usuário:&nbsp;</span>
+                    <span class="navbar-text me-2" th:utext="${session.usuario['nome']}"></span>
+                    <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt mx-1"></i>Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main class="container">
+    <div th:switch="${alert}">
+        <div th:case="'del'">
+            <div class="alert alert-success mt-4" role="alert">
+                <span>O episódio</span>
+                <span th:utext="${episodioNome}"></span>
+                <span>foi removida com sucesso!</span>
+            </div>
+        </div>
+        <div th:case="'add'">
+            <div class="alert alert-success mt-4" role="alert">
+                <span>O episódio</span>
+                <span th:utext="${episodioNome}"></span>
+                <span>foi adicionada com sucesso!</span>
+            </div>
+        </div>
+        <div th:case="'add-error'">
+            <div class="alert alert-danger mt-4" role="alert">
+                <span>O episódio</span>
+                <span th:utext="${episodioNome}"></span>
+                <span>já está cadastrada!</span>
+            </div>
+        </div>
+    </div>
+    <div class="card my-4 shadow-sm">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-start align-items-center">
+                    <h2 class="me-1">Episódios</h2>
+                    <span class="text-muted"> - Série:&nbsp;</span>
+                    <span class="text-muted" th:utext="${session.serie['nome']}"></span>
+                    <span class="text-muted">&nbsp;- Temporada:&nbsp;</span>
+                    <span class="text-muted" th:utext="${session.temporada['nome']}"></span>
+                </div>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newSerie"><i
+                        class="fas fa-plus-circle"></i></button>
+                <div id="newSerie" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Adicionar episódio</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/episodio/add" method="post">
+                                    <div class="form-floating flex-grow-1">
+                                        <input type="text" id="nome" name="nome" class="form-control mb-3" required
+                                               placeholder="Nome"/>
+                                        <label for="nome">Nome</label>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <button type="button" class="btn btn-secondary me-1" data-bs-dismiss="modal">
+                                            Fechar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:switch="${listaEpisodio.size()}">
+            <div th:case="0">
+                <p class="text-center my-3">A temporada <span th:utext="${session.temporada['nome']}"></span> da série
+                    <span th:utext="${session.serie['nome']}"></span> não possui episódios. Adicione um!</p>
+            </div>
+            <div th:case="*">
+                <div class="card-body">
+                    <div th:each="episodio : ${listaEpisodio}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span th:utext="${episodio.nome}"></span>
+                            <div class="d-flex justify-content-end align-items-center">
+                                <div class="d-flex justify-content-between align-items-center me-1">
+                                    <div th:switch="${episodio.assistidoCheck}">
+                                        <div th:case="true">
+                                            <a th:href="@{/episodio/assistido/{id}(id = ${episodio.id})}">
+                                                <button class="btn btn-outline-dark"><i
+                                                        class="fas fa-check icon1"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <div th:case="false">
+                                            <a th:href="@{/episodio/assistido/{id}(id = ${episodio.id})}">
+                                                <button class="btn btn-outline-dark"><i
+                                                        class="fas fa-times icon1"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary me-1"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#modalDelete'+${episodio.id}"
+                                        data-bs-target="#modalDelete"><i
+                                        class="fas fa-trash-alt"></i></button>
+                                <div th:id="'modalDelete'+${episodio.id}" class="modal fade" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmação</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span>Tem certeza que deseja remover o episódio</span>
+                                                <span th:utext="${episodio.nome}"></span>
+                                                <span>?</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Não
+                                                </button>
+                                                <a th:href="@{/episodio/delete/{id}(id = ${episodio.id})}">
+                                                    <button type="button" class="btn btn-primary">Sim</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="text-end">
+                        <span>Quantidade:&nbsp;</span>
+                        <span th:utext="${listaEpisodio.size()}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer mb-4">
+    <div class="container">
+        <p class="text-muted text-center">© 2018-2021 - BonitoFlix</p>
+    </div>
+</footer>
+
+<script th:src="@{/assets/js/main.js}"></script>
 
 </body>
 </html>

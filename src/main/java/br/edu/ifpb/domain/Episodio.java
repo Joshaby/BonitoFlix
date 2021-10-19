@@ -14,23 +14,30 @@ public class Episodio implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer numero;
+    private String nome;
 
     @ManyToOne
     @JoinColumn(name = "TEMPORADA_ID")
     private Temporada temporada;
 
-    private Boolean assistidoCheck;
+    private Boolean assistidoCheck = false;
 
     public Episodio() {
 
     }
 
-    public Integer getNumero() {
-        return numero;
+    public Integer getId() {
+        return id;
     }
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Temporada getTemporada() {
@@ -40,16 +47,23 @@ public class Episodio implements Serializable {
         this.temporada = temporada;
     }
 
+    public Boolean getAssistidoCheck() {
+        return assistidoCheck;
+    }
+    public void setAssistidoCheck(Boolean assistidoCheck) {
+        this.assistidoCheck = assistidoCheck;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Episodio)) return false;
         Episodio episodio = (Episodio) o;
-        return id.equals(episodio.id) && getNumero().equals(episodio.getNumero()) && getTemporada().equals(episodio.getTemporada());
+        return getId().equals(episodio.getId()) && getNome().equals(episodio.getNome()) && getTemporada().equals(episodio.getTemporada());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, getNumero(), getTemporada());
+        return Objects.hash(getId(), getNome(), getTemporada());
     }
 }

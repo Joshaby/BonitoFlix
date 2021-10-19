@@ -65,7 +65,6 @@ public class TemporadaResource {
         return modelAndView;
     }
 
-
     //DeletarTemporada
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView deletarTemporada(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
@@ -80,6 +79,18 @@ public class TemporadaResource {
         redirectAttributes.addFlashAttribute("temporadaNome", temporada.get().getNome());
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/{id}/episodio", method = RequestMethod.GET)
+    public ModelAndView episodio(@PathVariable Integer id, HttpSession session) {
+
+        ModelAndView modelEpisodios = new ModelAndView("redirect:/episodio/page");
+
+        Temporada temporada = temporadaRepository.findById(id).get();
+
+        session.setAttribute("temporada", temporada);
+
+        return modelEpisodios;
     }
 
 }

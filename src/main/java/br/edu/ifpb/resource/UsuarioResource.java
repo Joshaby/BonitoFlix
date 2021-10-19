@@ -22,13 +22,14 @@ public class UsuarioResource {
     private UsuarioRepository repository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addUsuario(
-            @ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
+    public ModelAndView addUsuario(Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
 
         ModelAndView modelError = new ModelAndView("redirect:/usuario/new");
         ModelAndView modelSerie = new ModelAndView("redirect:/serie/page");
 
         Optional<Usuario> usuarioFromBD = repository.findByEmail(usuario.getEmail());
+
+        redirectAttributes.addFlashAttribute("usuario", usuario);
 
         if (usuarioFromBD.isPresent()) {
             redirectAttributes.addFlashAttribute("error", "usuarioAlreadyExists");
@@ -51,8 +52,10 @@ public class UsuarioResource {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String getNewFormUsuario(@ModelAttribute("error") String error, Model model) {
+    public String getNewFormUsuario(
+            @ModelAttribute("usuario") Usuario usuario, @ModelAttribute("error") String error, Model model) {
 
+        model.addAttribute("usuario", usuario);
         model.addAttribute("error", error);
         return "usuario/new";
     }
@@ -68,8 +71,7 @@ public class UsuarioResource {
         if (usuarioFromBD.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "invalidEmail");
             return modelError;
-        }
-        else {
+        } else {
             if (!usuarioFromBD.get().getSenha().equals(usuario.getSenha())) {
                 redirectAttributes.addFlashAttribute("error", "invalidPassword");
                 return modelError;

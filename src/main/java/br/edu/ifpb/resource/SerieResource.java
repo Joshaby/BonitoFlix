@@ -14,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -72,9 +74,16 @@ public class SerieResource {
 
         List<Serie> listaSeries = serieRepository.findAllByUsuario(usuarioFromBD);
 
+        Map<Serie, Integer> mapSerie = new HashMap<>();
+
+        for (Serie serie : listaSeries) {
+            Integer count = serie.getTemporadas().size();
+            mapSerie.put(serie, count);
+        }
+
         ModelAndView modelAndView = new ModelAndView("serie/page");
 
-        modelAndView.addObject("listaSerie", listaSeries);
+        modelAndView.addObject("mapSerie", mapSerie);
         modelAndView.addObject("alert", alert);
         modelAndView.addObject("serieNome", serieNome);
 

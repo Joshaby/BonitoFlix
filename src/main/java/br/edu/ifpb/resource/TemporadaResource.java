@@ -1,5 +1,6 @@
 package br.edu.ifpb.resource;
 
+import br.edu.ifpb.domain.Episodio;
 import br.edu.ifpb.domain.Serie;
 import br.edu.ifpb.domain.Temporada;
 import br.edu.ifpb.repository.TemporadaRepository;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -67,8 +70,15 @@ public class TemporadaResource {
 
         List<Temporada> listaTemporada =  temporadaRepository.findAllBySerie(serie);
 
+        Map<Temporada, Long> mapTemporada = new HashMap<>();
+
+        for (Temporada temporada : listaTemporada) {
+            Long count = temporada.getEpisodios().stream().filter(Episodio::getAssistidoCheck).count();
+            mapTemporada.put(temporada, count);
+        }
+
         ModelAndView modelAndView = new ModelAndView("temporada/page");
-        modelAndView.addObject("listaTemporada", listaTemporada);
+        modelAndView.addObject("mapTemporada", mapTemporada);
         modelAndView.addObject("alert", alert);
         modelAndView.addObject("temporadaNome", temporadaNome);
 
@@ -79,6 +89,8 @@ public class TemporadaResource {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView deletarTemporada(
             @PathVariable Integer id, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        System.out.println(session.getAttribute("usuario"));
 
         if (session.getAttribute("usuario") == null) {
             ModelAndView modelIndex = new ModelAndView("redirect:/");

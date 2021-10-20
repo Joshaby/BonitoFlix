@@ -21,7 +21,7 @@ public class Temporada implements Serializable {
     @JoinColumn(name = "SERIE_ID")
     private Serie serie;
 
-    @OneToMany(mappedBy = "temporada")
+    @OneToMany(mappedBy = "temporada", cascade = CascadeType.REMOVE)
     private Set<Episodio> episodios = new HashSet<>();
 
     public Temporada() {

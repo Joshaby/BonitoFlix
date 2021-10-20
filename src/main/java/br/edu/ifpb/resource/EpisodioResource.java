@@ -26,6 +26,11 @@ public class EpisodioResource {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addEpisodios(Episodio episodio, HttpSession session, RedirectAttributes redirectAttributes) {
 
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
+
         ModelAndView modelEpisodioPage = new ModelAndView("redirect:/episodio/page");
 
         Temporada temporada = (Temporada) session.getAttribute("temporada");
@@ -50,6 +55,11 @@ public class EpisodioResource {
     public ModelAndView getEpisodios(
             @ModelAttribute("alert") String alert, @ModelAttribute("episodioNome") String episodioNome, HttpSession session) {
 
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
+
         Temporada temporada = (Temporada) session.getAttribute("temporada");
 
         List<Episodio> listaEpisodio = episodioRepository.findAllByTemporada(temporada);
@@ -63,7 +73,13 @@ public class EpisodioResource {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView deleteEpisodio(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView deleteEpisodio(
+            @PathVariable Integer id, RedirectAttributes redirectAttributes, HttpSession session) {
+
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
 
         ModelAndView modelEpisodioPage = new ModelAndView("redirect:/episodio/page");
 
@@ -78,9 +94,12 @@ public class EpisodioResource {
     }
 
     @RequestMapping(value = "/assistido/{id}", method = RequestMethod.GET)
-    public ModelAndView assistidoEpisodio(@PathVariable Integer id) {
+    public ModelAndView assistidoEpisodio(@PathVariable Integer id, HttpSession session) {
 
-        System.out.println("1");
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
 
         ModelAndView modelEpisodioPage = new ModelAndView("redirect:/episodio/page");
 

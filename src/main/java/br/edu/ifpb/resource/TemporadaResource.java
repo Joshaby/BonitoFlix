@@ -28,6 +28,11 @@ public class TemporadaResource {
     public ModelAndView cadastrarTemporada(
             Temporada temporada, HttpSession session, RedirectAttributes redirectAttributes){
 
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
+
         ModelAndView modelAndView = new ModelAndView("redirect:/temporada/page");
 
         redirectAttributes.addFlashAttribute("temporadaNome", temporada.getNome());
@@ -53,6 +58,11 @@ public class TemporadaResource {
     public ModelAndView listarTemporada(
             @ModelAttribute("alert") String alert, @ModelAttribute("temporadaNome") String temporadaNome, HttpSession session) {
 
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
+
         Serie serie = (Serie) session.getAttribute("serie");
 
         List<Temporada> listaTemporada =  temporadaRepository.findAllBySerie(serie);
@@ -67,7 +77,13 @@ public class TemporadaResource {
 
     //DeletarTemporada
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView deletarTemporada(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView deletarTemporada(
+            @PathVariable Integer id, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
 
         ModelAndView modelAndView = new ModelAndView("redirect:/temporada/page");
 
@@ -83,6 +99,11 @@ public class TemporadaResource {
 
     @RequestMapping(value = "/{id}/episodio", method = RequestMethod.GET)
     public ModelAndView episodio(@PathVariable Integer id, HttpSession session) {
+
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
 
         ModelAndView modelEpisodios = new ModelAndView("redirect:/episodio/page");
 

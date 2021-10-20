@@ -31,6 +31,11 @@ public class SerieResource {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView cadastrarSerie(Serie serie, HttpSession session, RedirectAttributes redirectAttributes) {
 
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
+
         ModelAndView modelSeriePage = new ModelAndView("redirect:/serie/page");
 
         Usuario usuarioFromSession = (Usuario) session.getAttribute("usuario");
@@ -57,6 +62,11 @@ public class SerieResource {
     public ModelAndView listaSerie(
             @ModelAttribute("alert") String alert, @ModelAttribute("serieNome") String serieNome, HttpSession session) {
 
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
+
         Usuario usuarioFromSession = (Usuario) session.getAttribute("usuario");
         Usuario usuarioFromBD = usuarioRepository.findByEmail(usuarioFromSession.getEmail()).get();
 
@@ -73,7 +83,13 @@ public class SerieResource {
 
     //DeletarSerie
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView deletarSerie(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView deletarSerie(
+            @PathVariable Integer id, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
 
         ModelAndView modelSeriePage = new ModelAndView("redirect:/serie/page");
 
@@ -89,6 +105,11 @@ public class SerieResource {
 
     @RequestMapping(value = "/{id}/temporada", method = RequestMethod.GET)
     public ModelAndView temporadas(@PathVariable Integer id, HttpSession session) {
+
+        if (session.getAttribute("usuario") == null) {
+            ModelAndView modelIndex = new ModelAndView("redirect:/");
+            return modelIndex;
+        }
 
         ModelAndView modelTemporadas = new ModelAndView("redirect:/temporada/page");
 
